@@ -1,0 +1,386 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		474850D8212AB69E00615DF4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850D7212AB69E00615DF4 /* AppDelegate.m */; };
+		474850DB212AB69E00615DF4 /* SKVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850DA212AB69E00615DF4 /* SKVViewController.m */; };
+		474850DE212AB69E00615DF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 474850DC212AB69E00615DF4 /* Main.storyboard */; };
+		474850E0212AB6A000615DF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474850DF212AB6A000615DF4 /* Assets.xcassets */; };
+		474850E3212AB6A000615DF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 474850E1212AB6A000615DF4 /* LaunchScreen.storyboard */; };
+		474850E6212AB6A000615DF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850E5212AB6A000615DF4 /* main.m */; };
+		474850EF212AB85E00615DF4 /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850EE212AB85E00615DF4 /* Rectangle.m */; };
+		474850F5212ACAE900615DF4 /* UIColor+SKVRandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */; };
+		474850F8212ACDCF00615DF4 /* RectanglesStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850F7212ACDCF00615DF4 /* RectanglesStore.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		474850D3212AB69E00615DF4 /* Rectangles Fun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rectangles Fun.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		474850D6212AB69E00615DF4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		474850D7212AB69E00615DF4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		474850D9212AB69E00615DF4 /* SKVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKVViewController.h; sourceTree = "<group>"; };
+		474850DA212AB69E00615DF4 /* SKVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKVViewController.m; sourceTree = "<group>"; };
+		474850DD212AB69E00615DF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		474850DF212AB6A000615DF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		474850E2212AB6A000615DF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		474850E4212AB6A000615DF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		474850E5212AB6A000615DF4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		474850ED212AB85E00615DF4 /* Rectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		474850EE212AB85E00615DF4 /* Rectangle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
+		474850F3212ACAE900615DF4 /* UIColor+SKVRandomColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SKVRandomColor.h"; sourceTree = "<group>"; };
+		474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SKVRandomColor.m"; sourceTree = "<group>"; };
+		474850F6212ACDCF00615DF4 /* RectanglesStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectanglesStore.h; sourceTree = "<group>"; };
+		474850F7212ACDCF00615DF4 /* RectanglesStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RectanglesStore.m; sourceTree = "<group>"; };
+		474850F9212AEE8D00615DF4 /* RectangleStoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectangleStoreDelegate.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		474850D0212AB69E00615DF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		474850CA212AB69E00615DF4 = {
+			isa = PBXGroup;
+			children = (
+				474850D5212AB69E00615DF4 /* Rectangles Fun */,
+				474850D4212AB69E00615DF4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		474850D4212AB69E00615DF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				474850D3212AB69E00615DF4 /* Rectangles Fun.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		474850D5212AB69E00615DF4 /* Rectangles Fun */ = {
+			isa = PBXGroup;
+			children = (
+				474850EC212AB6D100615DF4 /* Supporting Files */,
+				474850F0212AB86200615DF4 /* Models */,
+				474850F1212AB87600615DF4 /* ViewControllers */,
+				474850DC212AB69E00615DF4 /* Main.storyboard */,
+				474850E4212AB6A000615DF4 /* Info.plist */,
+				474850F3212ACAE900615DF4 /* UIColor+SKVRandomColor.h */,
+				474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */,
+			);
+			path = "Rectangles Fun";
+			sourceTree = "<group>";
+		};
+		474850EC212AB6D100615DF4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				474850D6212AB69E00615DF4 /* AppDelegate.h */,
+				474850D7212AB69E00615DF4 /* AppDelegate.m */,
+				474850DF212AB6A000615DF4 /* Assets.xcassets */,
+				474850E1212AB6A000615DF4 /* LaunchScreen.storyboard */,
+				474850E5212AB6A000615DF4 /* main.m */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		474850F0212AB86200615DF4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				474850ED212AB85E00615DF4 /* Rectangle.h */,
+				474850EE212AB85E00615DF4 /* Rectangle.m */,
+				474850F6212ACDCF00615DF4 /* RectanglesStore.h */,
+				474850F9212AEE8D00615DF4 /* RectangleStoreDelegate.h */,
+				474850F7212ACDCF00615DF4 /* RectanglesStore.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		474850F1212AB87600615DF4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				474850D9212AB69E00615DF4 /* SKVViewController.h */,
+				474850DA212AB69E00615DF4 /* SKVViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		474850D2212AB69E00615DF4 /* Rectangles Fun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 474850E9212AB6A000615DF4 /* Build configuration list for PBXNativeTarget "Rectangles Fun" */;
+			buildPhases = (
+				474850CF212AB69E00615DF4 /* Sources */,
+				474850D0212AB69E00615DF4 /* Frameworks */,
+				474850D1212AB69E00615DF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rectangles Fun";
+			productName = "Rectangles Fun";
+			productReference = 474850D3212AB69E00615DF4 /* Rectangles Fun.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		474850CB212AB69E00615DF4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Serhii Kyrylenko";
+				TargetAttributes = {
+					474850D2212AB69E00615DF4 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 474850CE212AB69E00615DF4 /* Build configuration list for PBXProject "Rectangles Fun" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 474850CA212AB69E00615DF4;
+			productRefGroup = 474850D4212AB69E00615DF4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				474850D2212AB69E00615DF4 /* Rectangles Fun */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		474850D1212AB69E00615DF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				474850E3212AB6A000615DF4 /* LaunchScreen.storyboard in Resources */,
+				474850E0212AB6A000615DF4 /* Assets.xcassets in Resources */,
+				474850DE212AB69E00615DF4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		474850CF212AB69E00615DF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				474850DB212AB69E00615DF4 /* SKVViewController.m in Sources */,
+				474850E6212AB6A000615DF4 /* main.m in Sources */,
+				474850D8212AB69E00615DF4 /* AppDelegate.m in Sources */,
+				474850EF212AB85E00615DF4 /* Rectangle.m in Sources */,
+				474850F5212ACAE900615DF4 /* UIColor+SKVRandomColor.m in Sources */,
+				474850F8212ACDCF00615DF4 /* RectanglesStore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		474850DC212AB69E00615DF4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				474850DD212AB69E00615DF4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		474850E1212AB6A000615DF4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				474850E2212AB6A000615DF4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		474850E7212AB6A000615DF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		474850E8212AB6A000615DF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		474850EA212AB6A000615DF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G42Q9LTDRN;
+				INFOPLIST_FILE = "Rectangles Fun/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skyrylenko.Rectangles-Fun";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		474850EB212AB6A000615DF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = G42Q9LTDRN;
+				INFOPLIST_FILE = "Rectangles Fun/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.skyrylenko.Rectangles-Fun";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		474850CE212AB69E00615DF4 /* Build configuration list for PBXProject "Rectangles Fun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				474850E7212AB6A000615DF4 /* Debug */,
+				474850E8212AB6A000615DF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		474850E9212AB6A000615DF4 /* Build configuration list for PBXNativeTarget "Rectangles Fun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				474850EA212AB6A000615DF4 /* Debug */,
+				474850EB212AB6A000615DF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 474850CB212AB69E00615DF4 /* Project object */;
+}
