@@ -132,18 +132,23 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 }
 
 
-- (void)removeStartPointView {
+- (void)removeStartPointViewWithAnimation:(BOOL)animated {
     // Perform animations - should be moved to separate view class
     CGAffineTransform currentTransform = self.startPointView.transform;
     CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, 0.2f, 0.2f);
     
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.startPointView.transform = newTransform;
-                     } completion:^(BOOL finished) {
-                         [self.startPointView removeFromSuperview];
-                         self.startPointView = nil;
-                     }];
+    if (animated) {
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.startPointView.transform = newTransform;
+                         } completion:^(BOOL finished) {
+                             [self.startPointView removeFromSuperview];
+                             self.startPointView = nil;
+                         }];
+    } else {
+        [self.startPointView removeFromSuperview];
+        self.startPointView = nil;
+    }
 }
 
 
@@ -189,7 +194,7 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
         [self bringToFrontRectangleView:tappedRectangle];
     } else { // handling creating rectangle
         if (self.isCreatingRectangle) {
-            [self removeStartPointView];
+            [self removeStartPointViewWithAnimation:YES];
             self.secondTapPoint = locationInView;
             [self createRectangleViewForStartPoint:self.firstTapPoint
                                           endPoint:self.secondTapPoint
@@ -218,6 +223,9 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
             if (tappedRectangle) {
                 [self bringToFrontRectangleView:tappedRectangle];
             } else { // handling creating rectangle
+                if (self.creatingRectangle) {
+                    [self removeStartPointViewWithAnimation:NO];
+                }
                 self.creatingRectangle = YES;
                 self.firstTapPoint = locationInView;
                 [self addStartPointViewAtPoint:locationInView];
@@ -244,11 +252,11 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
         }
         case UIGestureRecognizerStateEnded: {
             self.currentlyCreatingView.frame = [self normalizeFrame:self.currentlyCreatingView.frame];
-            [self removeStartPointView];
+            [self removeStartPointViewWithAnimation:NO];
             self.creatingRectangle = NO;
         }
         default:
-            [self removeStartPointView];
+            [self removeStartPointViewWithAnimation:NO];
             self.creatingRectangle = NO;
             break;
     }
