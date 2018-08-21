@@ -145,7 +145,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
             CGPoint insidePoint = [self.view convertPoint:point toView:view];
             if ([view pointInside:insidePoint withEvent:nil]) {
                 result = (RectangleView *)view;
-                break;
             }
         }
     }
