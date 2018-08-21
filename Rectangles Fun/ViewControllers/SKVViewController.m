@@ -57,20 +57,26 @@ static const NSUInteger TAG_SHIFT = 2000;
 }
 
 
-- (void)viewAddRectangle:(Rectangle *)rectangle atIndex:(NSUInteger)index {
+- (void)viewAddRectangle:(Rectangle *)rectangle
+                 atIndex:(NSUInteger)index
+                animated:(BOOL)animated {
     UIView *rectangleView = [[UIView alloc] initWithFrame:rectangle.frame];
     rectangleView.backgroundColor = rectangle.color;
-    rectangleView.alpha = 0.f;
     rectangleView.tag = index + TAG_SHIFT;
     [self.view addSubview:rectangleView];
     
-    // Perform animations to show rectangle smoothly
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         rectangleView.alpha = 1.f;
-                     } completion:^(BOOL finished) {
-                         [self attachGesturesToView:rectangleView];
-                     }];
+    if (animated) {
+        rectangleView.alpha = 0.f;
+        // Perform animations to show rectangle smoothly
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             rectangleView.alpha = 1.f;
+                         } completion:^(BOOL finished) {
+                             [self attachGesturesToView:rectangleView];
+                         }];
+    } else {
+        [self attachGesturesToView:rectangleView];
+    }
 }
 
 
@@ -162,13 +168,9 @@ static const NSUInteger TAG_SHIFT = 2000;
     
     switch (longPressGesture.state) {
         case UIGestureRecognizerStateBegan:
-            // TODO: animation
-            break;
-        case UIGestureRecognizerStateEnded: {
             [self.rectanglesStore rectangleForPoint:locationInView
                                       changeColorTo:UIColor.randomColor];
             break;
-        }
         default:
             break;
     }
@@ -230,19 +232,21 @@ static const NSUInteger TAG_SHIFT = 2000;
 
 #pragma mark - RectangleStoreDelegate
 
-- (void)addedRectangle:(Rectangle *)rectangle
-               atIndex:(NSUInteger)index {
-    [self viewAddRectangle:rectangle atIndex:index];
+- (void)addedRectangle:(Rectangle *)rectangle atIndex:(NSUInteger)index {
+    [self viewAddRectangle:rectangle
+                   atIndex:index
+                  animated:YES];
     NSLog(@"Created rectangle is: %@", rectangle);
 }
 
 
-- (void)changedRectangle:(Rectangle *)rectangle
-                 atIndex:(NSUInteger)index {
+- (void)changedRectangle:(Rectangle *)rectangle atIndex:(NSUInteger)index {
     UIView *rectangleView = [self.view viewWithTag:index + TAG_SHIFT];
     [rectangleView removeFromSuperview];
     
-    [self addedRectangle:rectangle atIndex:index];
+    [self viewAddRectangle:rectangle
+                   atIndex:index
+                  animated:NO];
 }
 
 

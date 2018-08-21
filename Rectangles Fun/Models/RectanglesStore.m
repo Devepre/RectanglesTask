@@ -77,7 +77,9 @@
     NSLog(@"Created rectangle is: %@", newRectangle);
     
     NSUInteger newRectangleDataSourceIndex = [self.dataSource indexOfObject:newRectangle];
-    [self.delegate addedRectangle:(Rectangle *)newRectangle atIndex:newRectangleDataSourceIndex];
+    [self.delegate addedRectangle:(Rectangle *)newRectangle
+                          atIndex:newRectangleDataSourceIndex
+                         /*animated:YES*/];
     
     return newRectangle;
 }
