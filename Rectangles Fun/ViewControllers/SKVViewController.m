@@ -18,6 +18,8 @@
 @property (assign, nonatomic) CGPoint firstTapPoint;
 @property (assign, nonatomic) CGPoint secondTapPoint;
 
+@property(weak, nonatomic) UIView *currentlyCreatingView;
+
 @end
 
 @implementation SKVViewController
@@ -48,6 +50,9 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTapGesture];
     [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGlobalPan:)];
+    [self.view addGestureRecognizer:panGesture];
 }
 
 
@@ -55,25 +60,21 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
     [view addGestureRecognizer:rotationGesture];
     
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanForRectangleView:)];
     [view addGestureRecognizer:panGesture];
 }
 
 
 #pragma mark - Drawing
 
-- (void)createRectangleViewForStartPoint:(CGPoint)startPoint
+- (RectangleView *)createRectangleViewForStartPoint:(CGPoint)startPoint
                                 endPoint:(CGPoint)endPoint
-                                animated:(BOOL)animated {
+                                animated:(BOOL)animated
+                                         normalized:(BOOL)normalized {
     CGRect frame = CGRectMake(startPoint.x, startPoint.y, endPoint.x - startPoint.x, endPoint.y - startPoint.y);
     
-    if (ABS(frame.size.width) < DEFAULT_RECTANGLE_SIZE) {
-        int multiplier = frame.size.width > 0 ? 1 : -1;
-        frame.size.width = DEFAULT_RECTANGLE_SIZE * multiplier;
-    }
-    if (ABS(frame.size.height) < DEFAULT_RECTANGLE_SIZE) {
-        int multiplier = frame.size.height > 0 ? 1 : -1;
-        frame.size.height = DEFAULT_RECTANGLE_SIZE * multiplier;
+    if (normalized) {
+        frame = [self normalizeFrame:frame];
     }
     
     RectangleView *rectangleView = [[RectangleView alloc] initWithFrame:frame];
@@ -93,6 +94,21 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     } else {
         [self attachGesturesToView:rectangleView];
     }
+    return rectangleView;
+}
+
+
+- (CGRect)normalizeFrame:(CGRect)frame {
+    CGRect result = frame;
+    if (ABS(frame.size.width) < DEFAULT_RECTANGLE_SIZE) {
+        int multiplier = frame.size.width > 0 ? 1 : -1;
+        result.size.width = DEFAULT_RECTANGLE_SIZE * multiplier;
+    }
+    if (ABS(frame.size.height) < DEFAULT_RECTANGLE_SIZE) {
+        int multiplier = frame.size.height > 0 ? 1 : -1;
+        result.size.height = DEFAULT_RECTANGLE_SIZE * multiplier;
+    }
+    return result;
 }
 
 
@@ -177,12 +193,64 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
             self.secondTapPoint = locationInView;
             [self createRectangleViewForStartPoint:self.firstTapPoint
                                           endPoint:self.secondTapPoint
-                                          animated:YES];
+                                          animated:YES
+                                        normalized:YES];
         } else {
             self.firstTapPoint = locationInView;
             [self addStartPointViewAtPoint:locationInView];
         }
         self.creatingRectangle = !self.isCreatingRectangle;
+    }
+}
+
+
+// User can create rectangle
+- (void)handleGlobalPan:(UIPanGestureRecognizer *)sender {
+    CGPoint locationInView = [sender locationInView:self.view];
+    NSLog(@"Global pan: %@", NSStringFromCGPoint(locationInView));
+    static CGSize initialSize;
+    static CGPoint initialOrigin;
+    
+    switch (sender.state) {
+        case UIGestureRecognizerStateBegan: {
+            // tap is on top of rectangle?
+            RectangleView *tappedRectangle = [self getRectangleForPoint:locationInView];
+            if (tappedRectangle) {
+                [self bringToFrontRectangleView:tappedRectangle];
+            } else { // handling creating rectangle
+                self.creatingRectangle = YES;
+                self.firstTapPoint = locationInView;
+                [self addStartPointViewAtPoint:locationInView];
+                
+                self.currentlyCreatingView = [self createRectangleViewForStartPoint:locationInView
+                                                                           endPoint:locationInView
+                                                                           animated:NO
+                                                                         normalized:NO];
+            }
+            initialSize = self.currentlyCreatingView.frame.size;
+            initialOrigin = self.currentlyCreatingView.frame.origin;
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            CGPoint translation = [sender translationInView:sender.view.superview];
+            NSLog(@"Translation: %f %f", translation.x, translation.y);
+            
+            CGRect newFrame = CGRectMake(initialOrigin.x,
+                                         initialOrigin.y,
+                                         initialSize.width + translation.x,
+                                         initialSize.height + translation.y);
+            self.currentlyCreatingView.frame = newFrame;
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            self.currentlyCreatingView.frame = [self normalizeFrame:self.currentlyCreatingView.frame];
+            [self removeStartPointView];
+            self.creatingRectangle = NO;
+        }
+        default:
+            [self removeStartPointView];
+            self.creatingRectangle = NO;
+            break;
     }
 }
 
@@ -210,6 +278,7 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     
     RectangleView *rectangleView = [self getRectangleForPoint:locationInView];
     if (rectangleView) {
+        [self bringToFrontRectangleView:rectangleView];
         [rectangleView removeFromSuperview];
     }
 }
@@ -228,11 +297,12 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 
 
 // User can drag/move object
-- (void)handlePan:(UIPanGestureRecognizer *)sender {
+- (void)handlePanForRectangleView:(UIPanGestureRecognizer *)sender {
     static CGPoint initialCenter;
     if (sender.state == UIGestureRecognizerStateBegan) {
         initialCenter = sender.view.center;
     }
+    [self bringToFrontRectangleView:(RectangleView *)sender.view];
     CGPoint translation = [sender translationInView:sender.view.superview];
     sender.view.center = CGPointMake(initialCenter.x + translation.x, initialCenter.y + translation.y);
 }
