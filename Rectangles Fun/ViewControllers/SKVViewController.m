@@ -52,6 +52,7 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     [tapGesture requireGestureRecognizerToFail:doubleTapGesture];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGlobalPan:)];
+    panGesture.maximumNumberOfTouches = 1;
     [self.view addGestureRecognizer:panGesture];
 }
 
@@ -250,14 +251,13 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
             self.currentlyCreatingView.frame = newFrame;
             break;
         }
-        case UIGestureRecognizerStateEnded: {
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        default:
             self.currentlyCreatingView.frame = [self normalizeFrame:self.currentlyCreatingView.frame];
             [self removeStartPointViewWithAnimation:NO];
             self.creatingRectangle = NO;
-        }
-        default:
-            [self removeStartPointViewWithAnimation:NO];
-            self.creatingRectangle = NO;
+            self.currentlyCreatingView = nil;
             break;
     }
 }
