@@ -15,6 +15,7 @@
 		474850E6212AB6A000615DF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850E5212AB6A000615DF4 /* main.m */; };
 		474850F5212ACAE900615DF4 /* UIColor+SKVRandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */; };
 		47FA7E4D212C5AEE0007D684 /* RectangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FA7E4C212C5AEE0007D684 /* RectangleView.m */; };
+		47FA7E50212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FA7E4F212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SKVRandomColor.m"; sourceTree = "<group>"; };
 		47FA7E4B212C5AEE0007D684 /* RectangleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectangleView.h; sourceTree = "<group>"; };
 		47FA7E4C212C5AEE0007D684 /* RectangleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RectangleView.m; sourceTree = "<group>"; };
+		47FA7E4E212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIPinchGestureRecognizer+SKVDirection.h"; sourceTree = "<group>"; };
+		47FA7E4F212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIPinchGestureRecognizer+SKVDirection.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,8 +72,7 @@
 				474850F1212AB87600615DF4 /* ViewControllers */,
 				474850DC212AB69E00615DF4 /* Main.storyboard */,
 				474850E4212AB6A000615DF4 /* Info.plist */,
-				474850F3212ACAE900615DF4 /* UIColor+SKVRandomColor.h */,
-				474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */,
+				47FA7E51212C78CA0007D684 /* Categories */,
 			);
 			path = "Rectangles Fun";
 			sourceTree = "<group>";
@@ -103,6 +105,17 @@
 				474850DA212AB69E00615DF4 /* SKVViewController.m */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		47FA7E51212C78CA0007D684 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				47FA7E4E212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.h */,
+				47FA7E4F212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.m */,
+				474850F3212ACAE900615DF4 /* UIColor+SKVRandomColor.h */,
+				474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				474850DB212AB69E00615DF4 /* SKVViewController.m in Sources */,
+				47FA7E50212C77F00007D684 /* UIPinchGestureRecognizer+SKVDirection.m in Sources */,
 				474850E6212AB6A000615DF4 /* main.m in Sources */,
 				474850D8212AB69E00615DF4 /* AppDelegate.m in Sources */,
 				47FA7E4D212C5AEE0007D684 /* RectangleView.m in Sources */,

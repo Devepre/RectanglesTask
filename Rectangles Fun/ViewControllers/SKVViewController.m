@@ -8,6 +8,7 @@
 
 #import "SKVViewController.h"
 #import "UIColor+SKVRandomColor.h"
+#import "UIPinchGestureRecognizer+SKVDirection.h"
 
 #import "RectangleView.h"
 
@@ -62,7 +63,11 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     [view addGestureRecognizer:rotationGesture];
     
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanForRectangleView:)];
+    panGesture.maximumNumberOfTouches = 1;
     [view addGestureRecognizer:panGesture];
+    
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+    [view addGestureRecognizer:pinchGesture];
 }
 
 
@@ -313,6 +318,34 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
     [self bringToFrontRectangleView:(RectangleView *)sender.view];
     CGPoint translation = [sender translationInView:sender.view.superview];
     sender.view.center = CGPointMake(initialCenter.x + translation.x, initialCenter.y + translation.y);
+}
+
+
+// User can resize objects
+- (void)handlePinch:(UIPinchGestureRecognizer *)sender {
+    NSLog(@"PINCH");
+    CGFloat scale = sender.scale;
+    UIView *currentView = sender.view;
+    CGAffineTransform currentTransform = currentView.transform;
+    
+    UIPinchGestureRecognizerOrientation currentOrientation = [sender getDirection];
+    NSLog(@"Orientation is: %d", currentOrientation);
+    
+    switch (currentOrientation) {
+        case OrientaionVertical:
+            currentView.transform = CGAffineTransformScale(currentTransform, 1.f, scale);
+            break;
+        case OrientaionHorizontal:
+            currentView.transform = CGAffineTransformScale(currentTransform, scale, 1.f);
+            break;
+        case OrientaionDoiagonal:
+            currentView.transform = CGAffineTransformScale(currentTransform, scale, scale);
+            break;
+        default:
+            break;
+    }
+    
+    sender.scale = 1.f;
 }
 
 @end
