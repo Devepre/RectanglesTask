@@ -7,19 +7,13 @@
 //
 
 #import "SKVViewController.h"
-#import "Rectangle.h"
-#import "RectanglesStore.h"
 #import "UIColor+SKVRandomColor.h"
 
-@interface SKVViewController () <RectangleStoreDelegate>
+#import "RectangleView.h"
 
-@property(strong, nonatomic) RectanglesStore *rectanglesStore;
+@interface SKVViewController ()
 
 @property(strong, nonatomic) UIView *startPointView;
-@property (weak, nonatomic) UIView *testView;
-@property (assign, nonatomic) CGFloat testViewScale;
-@property (assign, nonatomic) CGFloat testViewRotation;
-
 @property (assign, nonatomic, getter=isCreatingRectangle) BOOL creatingRectangle;
 @property (assign, nonatomic) CGPoint firstTapPoint;
 @property (assign, nonatomic) CGPoint secondTapPoint;
@@ -29,7 +23,7 @@
 @implementation SKVViewController
 
 static const CGFloat TOUCH_VIEW_FRAME_SIZE = 15;
-static const NSUInteger TAG_SHIFT = 2000;
+static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 
 #pragma mark - Lifecycle
 
@@ -57,12 +51,34 @@ static const NSUInteger TAG_SHIFT = 2000;
 }
 
 
-- (void)viewAddRectangle:(Rectangle *)rectangle
-                 atIndex:(NSUInteger)index
-                animated:(BOOL)animated {
-    UIView *rectangleView = [[UIView alloc] initWithFrame:rectangle.frame];
-    rectangleView.backgroundColor = rectangle.color;
-    rectangleView.tag = index + TAG_SHIFT;
+- (void)attachGesturesToView:(UIView *)view {
+    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
+    [view addGestureRecognizer:rotationGesture];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [view addGestureRecognizer:panGesture];
+}
+
+
+#pragma mark - Drawing
+
+- (void)createRectangleViewForStartPoint:(CGPoint)startPoint
+                                endPoint:(CGPoint)endPoint
+                                animated:(BOOL)animated {
+    CGRect frame = CGRectMake(startPoint.x, startPoint.y, endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+    
+    if (ABS(frame.size.width) < DEFAULT_RECTANGLE_SIZE) {
+        int multiplier = frame.size.width > 0 ? 1 : -1;
+        frame.size.width = DEFAULT_RECTANGLE_SIZE * multiplier;
+    }
+    if (ABS(frame.size.height) < DEFAULT_RECTANGLE_SIZE) {
+        int multiplier = frame.size.height > 0 ? 1 : -1;
+        frame.size.height = DEFAULT_RECTANGLE_SIZE * multiplier;
+    }
+    
+    RectangleView *rectangleView = [[RectangleView alloc] initWithFrame:frame];
+    
+    rectangleView.backgroundColor = UIColor.randomColor;
     [self.view addSubview:rectangleView];
     
     if (animated) {
@@ -77,15 +93,6 @@ static const NSUInteger TAG_SHIFT = 2000;
     } else {
         [self attachGesturesToView:rectangleView];
     }
-}
-
-
-- (void)attachGesturesToView:(UIView *)view {
-    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
-    [view addGestureRecognizer:rotationGesture];
-    
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    [view addGestureRecognizer:panGesture];
 }
 
 
@@ -126,10 +133,32 @@ static const NSUInteger TAG_SHIFT = 2000;
 
 #pragma mark - Helper methods
 
-- (void)bringToFrontRectangle:(Rectangle *)rectangle {
-    NSUInteger tag = [self.rectanglesStore getIndexForRectangle:rectangle] + TAG_SHIFT;
-    UIView *tappedRectangle = [self.view viewWithTag:tag];
-    [self.view bringSubviewToFront:tappedRectangle];
+- (void)bringToFrontRectangleView:(RectangleView *)rectangleView {
+    [self.view bringSubviewToFront:(UIView *)rectangleView];
+}
+
+
+- (RectangleView *)getRectangleForPoint:(CGPoint)point {
+    RectangleView *result = nil;
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:RectangleView.class]) {
+            CGPoint insidePoint = [self.view convertPoint:point toView:view];
+            if ([view pointInside:insidePoint withEvent:nil]) {
+                result = (RectangleView *)view;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+
+- (void)changeViewColorForPoint:(CGPoint)point toColor:(UIColor *)color {
+    RectangleView *rectangleView = [self getRectangleForPoint:point];
+    if (!rectangleView) {
+        return;
+    }
+    rectangleView.backgroundColor = color;
 }
 
 
@@ -140,24 +169,22 @@ static const NSUInteger TAG_SHIFT = 2000;
     NSLog(@"Tap: %@", NSStringFromCGPoint(locationInView));
     
     // tap is on top of rectangle?
-    Rectangle *tappedRectangle = [self.rectanglesStore getRectangleForPoint:locationInView];
+    RectangleView *tappedRectangle = [self getRectangleForPoint:locationInView];
     if (tappedRectangle) {
-        [self bringToFrontRectangle:tappedRectangle];
+        [self bringToFrontRectangleView:tappedRectangle];
     } else { // handling creating rectangle
         if (self.isCreatingRectangle) {
             [self removeStartPointView];
             self.secondTapPoint = locationInView;
-            
-            [self.rectanglesStore addRectangleForStartPoint:self.firstTapPoint
-                                                   endPoint:self.secondTapPoint];
+            [self createRectangleViewForStartPoint:self.firstTapPoint
+                                          endPoint:self.secondTapPoint
+                                          animated:YES];
         } else {
             self.firstTapPoint = locationInView;
             [self addStartPointViewAtPoint:locationInView];
         }
-        
         self.creatingRectangle = !self.isCreatingRectangle;
     }
-    
 }
 
 
@@ -168,13 +195,13 @@ static const NSUInteger TAG_SHIFT = 2000;
     
     switch (longPressGesture.state) {
         case UIGestureRecognizerStateBegan:
-            [self.rectanglesStore rectangleForPoint:locationInView
-                                      changeColorTo:UIColor.randomColor];
+            [self changeViewColorForPoint:locationInView
+                                  toColor:UIColor.randomColor];
             break;
         default:
             break;
     }
-
+    
 }
 
 // user can remove object via 2 taps on object
@@ -182,78 +209,33 @@ static const NSUInteger TAG_SHIFT = 2000;
     CGPoint locationInView = [doubleTapGesture locationInView:self.view];
     NSLog(@"Double Tap: %@", NSStringFromCGPoint(locationInView));
     
-    [self.rectanglesStore removeRectangleAtPoint:locationInView];
+    RectangleView *rectangleView = [self getRectangleForPoint:locationInView];
+    if (rectangleView) {
+        [rectangleView removeFromSuperview];
+    }
 }
 
 
 // User can rotate object
 - (void)handleRotation:(UIRotationGestureRecognizer *)sender {
     static CGFloat initialRotation;
-    static Rectangle *currentRectangle;
     if (sender.state == UIGestureRecognizerStateBegan) {
         initialRotation = atan2f(sender.view.transform.b, sender.view.transform.a);
-        CGPoint locationInView = [sender locationInView:self.view];
-        currentRectangle = [self.rectanglesStore getRectangleForPoint:locationInView];
     }
     CGFloat newRotation = initialRotation + sender.rotation;
+    NSLog(@"New rotation is %f", newRotation);
     sender.view.transform = CGAffineTransformMakeRotation(newRotation);
-    
-    currentRectangle.frame = sender.view.frame;
 }
 
 
 // User can drag/move object
 - (void)handlePan:(UIPanGestureRecognizer *)sender {
-    static CGPoint locationInView;
-    static Rectangle *currentRectangle;
-    
     static CGPoint initialCenter;
     if (sender.state == UIGestureRecognizerStateBegan) {
         initialCenter = sender.view.center;
-        locationInView = [sender locationInView:self.view];
-        currentRectangle = [self.rectanglesStore getRectangleForPoint:locationInView];
     }
     CGPoint translation = [sender translationInView:sender.view.superview];
     sender.view.center = CGPointMake(initialCenter.x + translation.x, initialCenter.y + translation.y);
-    
-    currentRectangle.frame = sender.view.frame;
-}
-
-#pragma mark - Getters and Setters
-
-- (RectanglesStore *)rectanglesStore {
-    if (!_rectanglesStore) {
-        _rectanglesStore = [[RectanglesStore alloc] init];
-        _rectanglesStore.delegate = self;
-    }
-    return _rectanglesStore;
-}
-
-
-#pragma mark - RectangleStoreDelegate
-
-- (void)addedRectangle:(Rectangle *)rectangle atIndex:(NSUInteger)index {
-    [self viewAddRectangle:rectangle
-                   atIndex:index
-                  animated:YES];
-    NSLog(@"Created rectangle is: %@", rectangle);
-}
-
-
-- (void)changedRectangle:(Rectangle *)rectangle atIndex:(NSUInteger)index {
-    UIView *rectangleView = [self.view viewWithTag:index + TAG_SHIFT];
-    [rectangleView removeFromSuperview];
-    
-    [self viewAddRectangle:rectangle
-                   atIndex:index
-                  animated:NO];
-}
-
-
-- (void)removedRectangle:(Rectangle *)rectangle
-                 atIndex:(NSUInteger)index {
-    UIView *rectangleView = [self.view viewWithTag:index + TAG_SHIFT];
-    [rectangleView removeFromSuperview];
 }
 
 @end

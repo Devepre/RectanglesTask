@@ -13,9 +13,8 @@
 		474850E0212AB6A000615DF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474850DF212AB6A000615DF4 /* Assets.xcassets */; };
 		474850E3212AB6A000615DF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 474850E1212AB6A000615DF4 /* LaunchScreen.storyboard */; };
 		474850E6212AB6A000615DF4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850E5212AB6A000615DF4 /* main.m */; };
-		474850EF212AB85E00615DF4 /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850EE212AB85E00615DF4 /* Rectangle.m */; };
 		474850F5212ACAE900615DF4 /* UIColor+SKVRandomColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */; };
-		474850F8212ACDCF00615DF4 /* RectanglesStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 474850F7212ACDCF00615DF4 /* RectanglesStore.m */; };
+		47FA7E4D212C5AEE0007D684 /* RectangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47FA7E4C212C5AEE0007D684 /* RectangleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,13 +28,10 @@
 		474850E2212AB6A000615DF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		474850E4212AB6A000615DF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		474850E5212AB6A000615DF4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		474850ED212AB85E00615DF4 /* Rectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
-		474850EE212AB85E00615DF4 /* Rectangle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
 		474850F3212ACAE900615DF4 /* UIColor+SKVRandomColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SKVRandomColor.h"; sourceTree = "<group>"; };
 		474850F4212ACAE900615DF4 /* UIColor+SKVRandomColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SKVRandomColor.m"; sourceTree = "<group>"; };
-		474850F6212ACDCF00615DF4 /* RectanglesStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectanglesStore.h; sourceTree = "<group>"; };
-		474850F7212ACDCF00615DF4 /* RectanglesStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RectanglesStore.m; sourceTree = "<group>"; };
-		474850F9212AEE8D00615DF4 /* RectangleStoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectangleStoreDelegate.h; sourceTree = "<group>"; };
+		47FA7E4B212C5AEE0007D684 /* RectangleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RectangleView.h; sourceTree = "<group>"; };
+		47FA7E4C212C5AEE0007D684 /* RectangleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RectangleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,11 +90,8 @@
 		474850F0212AB86200615DF4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				474850ED212AB85E00615DF4 /* Rectangle.h */,
-				474850EE212AB85E00615DF4 /* Rectangle.m */,
-				474850F6212ACDCF00615DF4 /* RectanglesStore.h */,
-				474850F9212AEE8D00615DF4 /* RectangleStoreDelegate.h */,
-				474850F7212ACDCF00615DF4 /* RectanglesStore.m */,
+				47FA7E4B212C5AEE0007D684 /* RectangleView.h */,
+				47FA7E4C212C5AEE0007D684 /* RectangleView.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,9 +178,8 @@
 				474850DB212AB69E00615DF4 /* SKVViewController.m in Sources */,
 				474850E6212AB6A000615DF4 /* main.m in Sources */,
 				474850D8212AB69E00615DF4 /* AppDelegate.m in Sources */,
-				474850EF212AB85E00615DF4 /* Rectangle.m in Sources */,
+				47FA7E4D212C5AEE0007D684 /* RectangleView.m in Sources */,
 				474850F5212ACAE900615DF4 /* UIColor+SKVRandomColor.m in Sources */,
-				474850F8212ACDCF00615DF4 /* RectanglesStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
