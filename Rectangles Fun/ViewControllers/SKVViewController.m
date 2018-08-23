@@ -192,7 +192,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 
 - (void)handleTap:(UITapGestureRecognizer *)tapGesture {
     CGPoint locationInView = [tapGesture locationInView:self.view];
-    NSLog(@"Tap: %@", NSStringFromCGPoint(locationInView));
     
     // tap is on top of rectangle?
     RectangleView *tappedRectangle = [self getRectangleForPoint:locationInView];
@@ -218,12 +217,12 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 // User can create rectangle
 - (void)handleGlobalPan:(UIPanGestureRecognizer *)sender {
     CGPoint locationInView = [sender locationInView:self.view];
-    NSLog(@"Global pan: %@", NSStringFromCGPoint(locationInView));
     static CGSize initialSize;
     static CGPoint initialOrigin;
     
     switch (sender.state) {
         case UIGestureRecognizerStateBegan: {
+            // FIXME: looks like DRY principle is broken here
             // tap is on top of rectangle?
             RectangleView *tappedRectangle = [self getRectangleForPoint:locationInView];
             if (tappedRectangle) {
@@ -247,7 +246,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
         }
         case UIGestureRecognizerStateChanged: {
             CGPoint translation = [sender translationInView:sender.view.superview];
-            NSLog(@"Translation: %f %f", translation.x, translation.y);
             
             CGRect newFrame = CGRectMake(initialOrigin.x,
                                          initialOrigin.y,
@@ -271,7 +269,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 // user can change object color with long tap gesture (just apply new random color)
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPressGesture {
     CGPoint locationInView = [longPressGesture locationInView:self.view];
-    NSLog(@"LongPress: %@", NSStringFromCGPoint(locationInView));
     
     switch (longPressGesture.state) {
         case UIGestureRecognizerStateBegan:
@@ -287,7 +284,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 // user can remove object via 2 taps on object
 - (void)handleDoubleTap:(UITapGestureRecognizer *)doubleTapGesture {
     CGPoint locationInView = [doubleTapGesture locationInView:self.view];
-    NSLog(@"Double Tap: %@", NSStringFromCGPoint(locationInView));
     
     RectangleView *rectangleView = [self getRectangleForPoint:locationInView];
     if (rectangleView) {
@@ -304,7 +300,6 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
         initialRotation = atan2f(sender.view.transform.b, sender.view.transform.a);
     }
     CGFloat newRotation = initialRotation + sender.rotation;
-    NSLog(@"New rotation is %f", newRotation);
     sender.view.transform = CGAffineTransformMakeRotation(newRotation);
 }
 
@@ -323,29 +318,39 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 
 // User can resize objects
 - (void)handlePinch:(UIPinchGestureRecognizer *)sender {
-    NSLog(@"PINCH");
     CGFloat scale = sender.scale;
-    UIView *currentView = sender.view;
-    CGAffineTransform currentTransform = currentView.transform;
+    RectangleView *currentView = (RectangleView *)sender.view;
+
+    static CGRect initialFrame;
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        initialFrame = [currentView getUntransformedFrame];
+    }
     
     UIPinchGestureRecognizerOrientation currentOrientation = [sender getDirection];
-    NSLog(@"Orientation is: %d", currentOrientation);
-    
     switch (currentOrientation) {
-        case OrientaionVertical:
-            currentView.transform = CGAffineTransformScale(currentTransform, 1.f, scale);
+        case OrientaionVertical: {
+            CGFloat newHeight = CGRectGetHeight(initialFrame) * scale;
+            [currentView setWidth:CGRectGetWidth(initialFrame)
+                           height:newHeight];
             break;
-        case OrientaionHorizontal:
-            currentView.transform = CGAffineTransformScale(currentTransform, scale, 1.f);
+        }
+        case OrientaionHorizontal:{
+            CGFloat newWidth = CGRectGetWidth(initialFrame) * scale;
+            [currentView setWidth:newWidth
+                           height:CGRectGetHeight(initialFrame)];
             break;
-        case OrientaionDoiagonal:
-            currentView.transform = CGAffineTransformScale(currentTransform, scale, scale);
+        }
+        case OrientaionDoiagonal:{
+            // TODO: handle diagonal resize after fix with position RectangleView.m line#18
+//            CGFloat newWidth = CGRectGetWidth(initialFrame) * scale / 2.f;
+//            CGFloat newHeight = CGRectGetHeight(initialFrame) * scale / 2.f;
+//            [currentView setWidth:newWidth
+//                           height:newHeight];
             break;
+        }
         default:
             break;
     }
-    
-    sender.scale = 1.f;
 }
 
 @end

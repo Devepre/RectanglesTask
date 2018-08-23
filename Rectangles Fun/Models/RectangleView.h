@@ -6,11 +6,16 @@
 //  Copyright © 2018 Serhii Kyrylenko. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
+// it's new from Xcode 10 beta
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RectangleView : UIView
+
+- (CGRect)getUntransformedFrame;
+- (void)setWidth:(CGFloat)width
+          height:(CGFloat)height;
 
 @end
 

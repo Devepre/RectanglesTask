@@ -10,12 +10,26 @@
 
 @implementation RectangleView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)setWidth:(CGFloat)width
+          height:(CGFloat)height {
+    CGAffineTransform inputTransform = self.transform;
+    CGRect untransformedFrame = [self getUntransformedFrame];
+    self.transform = CGAffineTransformIdentity;
+    // FIXME: origin should be changed more intellectually
+    CGRect newFrame = CGRectMake(untransformedFrame.origin.x, untransformedFrame.origin.y,
+                                 width, height);
+    self.frame = newFrame;
+    self.transform = inputTransform;
 }
-*/
+
+
+- (CGRect)getUntransformedFrame {
+    CGAffineTransform inputTransform = self.transform;
+    self.transform = CGAffineTransformIdentity;
+    CGRect result = self.frame;
+    self.transform = inputTransform;
+    
+    return result;
+}
 
 @end
