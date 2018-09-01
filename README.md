@@ -4,13 +4,13 @@ RectanglesTask is an simple program to demonstrate some skills.
 ## Features
 
 - [x] First tap and second tap can set the beginning and end of the object (rectangle). First tap should display small circle of first tap. First tap circle should disappear after drawing object (rectangle)
-- [ ] Alternatively, a tap-and-drag gesture will flexibly animate a rectangle shape until the user releases the gesture to confirm the desired position of the rectangle on the screen
+- [x] Alternatively, a tap-and-drag gesture will flexibly animate a rectangle shape until the user releases the gesture to confirm the desired position of the rectangle on the screen
 - [x] Minimal size of object (rectangle) should be 100x100 pixels
 - [x] user can select the object (move object on top over others)
 - [x] user can change object color with long tap gesture (just apply new random color)
 - [x] user can drag/move object
 - [x] user can rotate object (using two fingers gesture)
-- [ ] user can resize object in 3-axis direction: width only (horizontal), height only (vertical), diagonal (width and height together)
+- [x] user can resize object in 3-axis direction: width only (horizontal), height only (vertical), diagonal (width and height together)
 - [x] user can remove object via 2 taps on object
 - [ ] Second way to resize each object
 
