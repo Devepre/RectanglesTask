@@ -13,23 +13,12 @@
 - (void)setWidth:(CGFloat)width
           height:(CGFloat)height {
     CGAffineTransform inputTransform = self.transform;
-    CGRect untransformedFrame = [self getUntransformedFrame];
+    CGRect untransformedBounds = self.bounds;
     self.transform = CGAffineTransformIdentity;
-    // FIXME: origin should be changed more intellectually
-    CGRect newFrame = CGRectMake(untransformedFrame.origin.x, untransformedFrame.origin.y,
-                                 width, height);
-    self.frame = newFrame;
+    CGRect newBounds = CGRectMake(untransformedBounds.origin.x, untransformedBounds.origin.y,
+                                  width, height);
+    self.bounds = newBounds;
     self.transform = inputTransform;
-}
-
-
-- (CGRect)getUntransformedFrame {
-    CGAffineTransform inputTransform = self.transform;
-    self.transform = CGAffineTransformIdentity;
-    CGRect result = self.frame;
-    self.transform = inputTransform;
-    
-    return result;
 }
 
 @end

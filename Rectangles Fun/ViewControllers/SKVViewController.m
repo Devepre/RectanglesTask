@@ -319,38 +319,53 @@ static const CGFloat DEFAULT_RECTANGLE_SIZE = 100;
 // User can resize objects
 - (void)handlePinch:(UIPinchGestureRecognizer *)sender {
     CGFloat scale = sender.scale;
+    static CGRect initialBounds;
     RectangleView *currentView = (RectangleView *)sender.view;
-
-    static CGRect initialFrame;
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        initialFrame = [currentView getUntransformedFrame];
-    }
     
-    UIPinchGestureRecognizerOrientation currentOrientation = [sender getDirection];
-    switch (currentOrientation) {
-        case OrientaionVertical: {
-            CGFloat newHeight = CGRectGetHeight(initialFrame) * scale;
-            [currentView setWidth:CGRectGetWidth(initialFrame)
-                           height:newHeight];
+    // Helper block created in order to make
+    // later switch-case more clear to read
+    void(^changeSizeOfView)(RectangleView *) = ^(RectangleView *view) {
+        UIPinchGestureRecognizerOrientation currentOrientation = [sender getDirection];
+        switch (currentOrientation) {
+            case OrientaionVertical: {
+                CGFloat newHeight = CGRectGetHeight(initialBounds) * scale;
+                [view setWidth:CGRectGetWidth(initialBounds)
+                               height:newHeight];
+                break;
+            }
+            case OrientaionHorizontal: {
+                CGFloat newWidth = CGRectGetWidth(initialBounds) * scale;
+                [view setWidth:newWidth
+                               height:CGRectGetHeight(initialBounds)];
+                break;
+            }
+            case OrientaionDoiagonal: {
+                CGFloat newWidth = CGRectGetWidth(initialBounds) * scale ;
+                CGFloat newHeight = CGRectGetHeight(initialBounds) * scale ;
+                [currentView setWidth:newWidth
+                               height:newHeight];
+                break;
+            }
+            default:
+                break;
+        }
+    };
+    
+    switch (sender.state) {
+        case UIGestureRecognizerStateBegan:
+            initialBounds = currentView.bounds;
+            break;
+        case UIGestureRecognizerStateChanged: {
+            changeSizeOfView(currentView);
             break;
         }
-        case OrientaionHorizontal:{
-            CGFloat newWidth = CGRectGetWidth(initialFrame) * scale;
-            [currentView setWidth:newWidth
-                           height:CGRectGetHeight(initialFrame)];
-            break;
-        }
-        case OrientaionDoiagonal:{
-            // TODO: handle diagonal resize after fix with position RectangleView.m line#18
-//            CGFloat newWidth = CGRectGetWidth(initialFrame) * scale / 2.f;
-//            CGFloat newHeight = CGRectGetHeight(initialFrame) * scale / 2.f;
-//            [currentView setWidth:newWidth
-//                           height:newHeight];
-            break;
-        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateEnded:
+            currentView.bounds = [self normalizeFrame:currentView.bounds];
         default:
             break;
     }
+    
 }
 
 @end
