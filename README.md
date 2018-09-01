@@ -18,7 +18,7 @@ RectanglesTask is an simple program to demonstrate some skills.
 ## Requirements
 
 - iOS 9.0+
-- Xcode 9.0+
+- Xcode 10
 
 ## Installation
 ### Manually
